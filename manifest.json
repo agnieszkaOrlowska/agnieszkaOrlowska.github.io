@@ -1,6 +1,6 @@
 {
-    "name": "Progressive Web Application",
-    "short_name": "PWA",
+    "name": "reserve.io",
+    "short_name": "reserve",
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#fdfdfd",
