@@ -12,8 +12,8 @@
 <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+    
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
     import { getStorage } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-storage.js";
   
     // Your web app's Firebase configuration
@@ -30,7 +30,7 @@
   
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
+    
     const analytics = getAnalytics(app);
     const storage = getStorage();
   </script>
@@ -40,11 +40,49 @@
 {{ message }}
 
 </div>
+<h1>TEST</h1>
+
+<!-- Firebase authentication -->
+
+<div id="app1">
+  <div class = "container">
+      <div class="center">
+          <label for="input">Email: </label>
+          <input type="text" v-model="email"></input><br>
+          <label for="input">Password: </label>
+          <input type="text" v-model="password"><br>
+          <button @click="form_log_button">Sign in</button>
+      </div>
+  </div>
+</div>
+
+<script type="module">
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
+  const auth = getAuth(app);
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      // ...
+      console.log("Sukces");
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
+
+</script>
+
+
 
 <!-- Import and mount app -->
 <script src="js/app.js"></script>
+<script src="js/form.js"></script>
 <script> 
 app.mount('#vueapp')
+app1.mount('#vueapp')
 </script>
 </body>
 </html>
