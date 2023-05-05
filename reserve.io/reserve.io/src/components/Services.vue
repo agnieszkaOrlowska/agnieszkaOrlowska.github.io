@@ -1,7 +1,6 @@
 <script>
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import { store } from './store.js'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,47 +20,48 @@ const firestore = getFirestore(app);
 export default {
   data() {
     return {
-      providers: [],
-      store
+      services: []
     }
   },
   methods: {
-    renderProviders: async function(){
-    const providersSnapshot = await getDocs(collection(firestore, "uslugodawcy"));
-    providersSnapshot.forEach((doc) => {
-      var newProvider = {
+    renderServices: async function(){
+    const servicesSnapshot = await getDocs(collection(firestore, `uslugodawcy/${this.$route.params.providerId}/uslugi`));
+    servicesSnapshot.forEach((doc) => {
+      var newService = {
           id: doc.id,
           name: doc.data()['nazwa'],
           description: doc.data()['opis'],
-          rating: doc.data()['ocena']
+          price: doc.data()['cena']
         }
-          this.providers.push(newProvider)})
+          this.services.push(newService)})
         }
     },
     beforeMount() {
-   this.renderProviders()
+    this.renderServices()
     }
     }
 </script>
 
 <template>
-    <div class="container" v-for="provider in providers">
-      <router-link :to="`services/${provider.name}/${provider.id}`">
+    <h1>Available services from {{ this.$route.params.providerName }}:</h1>
+    <router-link :to="`/services/${this.$route.params.providerName}/${this.$route.params.providerId}/reviews`">
+      <h2>Check reviews</h2>
+    </router-link>
+    <div class="container" v-for="service in services">
         <div class="row">
         <div class="col-md-4">
             <div class="card">
             <div class="card-header">
-                {{ provider.name }}
+                {{ service.name }}
             </div>
             <div class="card-body">
-                <p class="card-text">{{ provider.description }}</p>
+                <p class="card-text">{{ service.description }}</p>
             </div>
             <div class="card-body">
-                <p class="card-text">{{ provider.rating }}</p>
+                <p class="card-text">{{ service.price }}PLN</p>
             </div>
             </div>
         </div>
         </div>
-      </router-link>
     </div>
 </template>
