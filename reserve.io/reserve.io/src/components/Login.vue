@@ -29,8 +29,8 @@ export default {
     methods: {
         signIn: async function(){
             signInWithEmailAndPassword(auth, this.email, this.password)
-            .then(store.userAuthenthicated=true,
-            store.userEmail=this.email)
+            .then( () => {store.login(),
+            store.userEmail=this.email})
             .catch (error =>  {var errorCode = error.code;
             var errorMessage = error.message;
             if (errorCode === 'auth/wrong-password') {
